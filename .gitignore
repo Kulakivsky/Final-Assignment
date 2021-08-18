@@ -1,0 +1,6 @@
+# folders
+out/
+.idea
+
+# files
+*.iml
