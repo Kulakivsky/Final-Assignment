@@ -1,23 +1,29 @@
 package com.example.demo.auth;
 
+import com.example.demo.student.Student;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
 import static com.example.demo.security.ApplicationUserRole.*;
 
-@Repository("fake")
-public class FakeApplicationUserDaoService implements ApplicationUserDao {
+@Repository("realDao")
+public class ApplicationUserDaoService implements ApplicationUserDao{
 
     private final PasswordEncoder passwordEncoder;
 
+
     @Autowired
-    public FakeApplicationUserDaoService(PasswordEncoder passwordEncoder) {
+    public ApplicationUserDaoService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
+
+
 
     @Override
     public Optional<ApplicationUser> selectApplicationUserByUsername(String username) {
@@ -57,6 +63,6 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
                         true
                 )
         );
-    return applicationUsers;
+        return applicationUsers;
     }
 }

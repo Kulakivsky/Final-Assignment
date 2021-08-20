@@ -1,23 +1,34 @@
 package com.example.demo.auth;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.checkerframework.checker.signature.qual.Identifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@Entit
 public class ApplicationUser implements UserDetails {
 
-
-
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
-    private final String password;
-    private final String username;
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
-    private final boolean isEnabled;
+    private Long id;
+    private Set<? extends GrantedAuthority> grantedAuthorities;
+    private String password;
+    private String username;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
 
     public ApplicationUser(String username,
                            String password,

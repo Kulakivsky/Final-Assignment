@@ -17,4 +17,15 @@ public class TemplateController {
     public String getCourses() {
         return "courses";
     }
+
+    @GetMapping("main")
+    public String getMain() {
+        return "mainPage";
+    }
+
+    @GetMapping("main/registration")
+    public String getRegistration() {
+        return "registration";
+    }
+
 }
