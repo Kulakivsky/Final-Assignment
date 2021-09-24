@@ -1,13 +1,16 @@
 package com.example.demo.auth;
 
+import com.example.demo.security.ApplicationUserRole;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.checkerframework.checker.signature.qual.Identifier;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -18,11 +21,22 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-@Entit
+@Entity
 public class ApplicationUser implements UserDetails {
 
+
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
+    @Id
+    @GeneratedValue (
+            strategy = GenerationType.SEQUENCE
+    )
     private Long id;
-    private Set<? extends GrantedAuthority> grantedAuthorities;
+
+    private ApplicationUserRole applicationUserRole;
     private String password;
     private String username;
     private boolean isAccountNonExpired;
@@ -32,12 +46,12 @@ public class ApplicationUser implements UserDetails {
 
     public ApplicationUser(String username,
                            String password,
-                           Set<? extends GrantedAuthority> grantedAuthorities,
+                           ApplicationUserRole applicationUserRole,
                            boolean isAccountNonExpired,
                            boolean isAccountNonLocked,
                            boolean isCredentialsNonExpired,
                            boolean isEnabled) {
-        this.grantedAuthorities = grantedAuthorities;
+        this.applicationUserRole = applicationUserRole;
         this.password = password;
         this.username = username;
         this.isAccountNonExpired = isAccountNonExpired;
@@ -47,8 +61,10 @@ public class ApplicationUser implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(applicationUserRole.name());
+        return authority;
     }
 
     @Override
