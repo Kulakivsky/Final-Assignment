@@ -12,7 +12,5 @@ public class SpringSecurityAmigosCodeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringSecurityAmigosCodeApplication.class, args);
 	}
-
-
 }
 
