@@ -21,7 +21,7 @@ public class PostgresDataSource implements CommandLineRunner {
 
         int rows = jdbcTemplate.update(sql);
         if(rows>0){
-            System.out.println("This shit insert something");
+            System.out.println("It insert something");
         }
     }
 }

@@ -1,29 +1,45 @@
 package com.example.demo.controller;
 
-import com.example.demo.student.Person;
+import com.example.demo.auth.ApplicationUser;
+import com.example.demo.auth.ApplicationUserDaoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
 
 
 @Controller
 public class RegistrationController {
 
+    @Autowired
+    private ApplicationUserDaoService applicationUserDaoService;
 
-    @PostMapping(value = "/main/registration")
-    public ModelAndView showRegistrationForm2(@Valid Person person) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("person", new Person());
-        return modelAndView;
+    @PostMapping("main/registration")
+    public String addingNewPerson( @ModelAttribute ApplicationUser applicationUser){
+        applicationUserDaoService.save(applicationUser);
+        return "main/list";
     }
 
     @GetMapping("main/registration")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("person", new Person());
-        return "registration";
+        model.addAttribute("applicationUser", new ApplicationUser());
+        return "main/registration";
     }
 
+    @GetMapping("main/list")
+    public String showListOfPeople(Model model) {
+        model.addAttribute("userList", applicationUserDaoService.getApplicationUsersList());
+        return "main/list";
+    }
+
+    @GetMapping("main/{id}")
+    public String show(@PathVariable("id") int id, Model model) {
+        model.addAttribute("user", applicationUserDaoService.show(id));
+        return "main/show";
+    }
 }
+
+
+
+
+
