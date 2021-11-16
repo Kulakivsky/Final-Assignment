@@ -17,6 +17,11 @@
 <p th:text="${user.getUsername()}">VALUE</p>
 <p th:text="${user.getId()}">VALUE</p>
 
+<a th:href="@{/main/{id}/edit(id=${user.getId()})}"> Edit </a>
+
+<form method="post" th:href="@{/main/{id}/delete(id=${user.getId()})}" >
+    <button type="submit" name="submit">DELETE</button>
+</form>
 
 </body>
 </html>

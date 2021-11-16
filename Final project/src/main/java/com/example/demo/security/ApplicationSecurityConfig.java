@@ -25,13 +25,10 @@ import static com.example.demo.security.ApplicationUserRole.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
     @Autowired
-    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
-                                     ApplicationUserService applicationUserService) {
-        this.passwordEncoder = passwordEncoder;
+    public ApplicationSecurityConfig(ApplicationUserService applicationUserService) {
         this.applicationUserService = applicationUserService;
     }
 
@@ -40,7 +37,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/main","/main/*", "index", "/css/*", "/js/*", "/registration").anonymous()
+                    .antMatchers("/main","/main/**", "index", "/css/*", "/js/*", "/registration").anonymous()
                     .antMatchers("/api/**").hasRole(STUDENT.name())
                     .anyRequest()
                     .authenticated()
@@ -67,7 +64,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(applicationUserService);
         return provider;
     }

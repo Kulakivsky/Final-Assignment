@@ -3,6 +3,8 @@ package com.example.demo.auth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -11,7 +13,12 @@ import static com.example.demo.security.ApplicationUserRole.STUDENT;
 public class ApplicationUser implements UserDetails {
 
     private int id;
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max =30, message = "Name should be between 2 and 30 characters")
+
     private String username;
+    
+    @NotEmpty(message = "Password should not be empty")
     private String password;
     private Set<? extends GrantedAuthority> grantedAuthorities = STUDENT.getGrantedAuthority(); //ADMIN.getGrantedAuthority()
     private boolean isAccountNonExpired = true;
@@ -21,7 +28,8 @@ public class ApplicationUser implements UserDetails {
 
     public ApplicationUser() {}
 
-    public ApplicationUser(String username,
+    public ApplicationUser(int id,
+                           String username,
                            String password) {
         this.id = id;
         this.username = username;

@@ -3,6 +3,7 @@ package com.example.demo.auth;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -19,14 +20,16 @@ import static com.example.demo.security.ApplicationUserRole.*;
 public class ApplicationUserDaoService implements ApplicationUserDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final PasswordEncoder passwordEncoder;
+
+
     private List<ApplicationUser> applicationUsersList = new ArrayList<>();
 
+//    TODO: Delet this filed later;
+    private boolean listHasBeenCreated;
+
     @Autowired
-    public ApplicationUserDaoService(PasswordEncoder passwordEncoder,
-                                     JdbcTemplate jdbcTemplate) {
+    public ApplicationUserDaoService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -38,21 +41,41 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
     }
 
     public void save(ApplicationUser applicationUser) {
-
-
-
         applicationUsersList.add(applicationUser);
     }
 
-    public List<ApplicationUser> getApplicationUsersList() {
+    public void update(int id, ApplicationUser applicationUser) {
+
+        ApplicationUser applicationUserToBeUpdated = show(id);
+        applicationUserToBeUpdated.setId(applicationUser.getId());
+        applicationUserToBeUpdated.setUsername(applicationUser.getUsername());
+    }
+
+    public void delete(int id){
+        applicationUsersList.removeIf(applicationUser -> applicationUser.getId() == id);
+    }
+
+
+//    TODO: delete later
+    public void creatFewPeople(){
         applicationUsersList = Lists.newArrayList(
                 new ApplicationUser(
+                        1,
                         "annasmith",
-                        passwordEncoder.encode("password")),
+                        "password"),
                 new ApplicationUser(
+                        2,
                         "linda",
-                        passwordEncoder.encode("password"))
+                        "password")
         );
+    }
+
+    public List<ApplicationUser> getApplicationUsersList() {
+        if(listHasBeenCreated != true){
+            creatFewPeople();
+            listHasBeenCreated = true;
+        }
+
         return applicationUsersList;
     }
 
