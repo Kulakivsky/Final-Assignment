@@ -1,4 +1,6 @@
-package com.example.demo.auth;
+package com.example.demo.datasource;
+
+import com.example.demo.auth.ApplicationUser;
 
 import java.util.Optional;
 

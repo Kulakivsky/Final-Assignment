@@ -1,5 +1,6 @@
 package com.example.demo.auth;
 
+import com.example.demo.datasource.ApplicationUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;

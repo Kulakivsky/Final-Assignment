@@ -14,8 +14,11 @@
 </head>
 <body>
 
-<p th:text="${user.getUsername()}">VALUE</p>
-<p th:text="${user.getId()}">VALUE</p>
+<label for="username" style="color:black"> Username: </label>
+<p th:text="${user.getUsername()}" id = "username">VALUE</p>
+
+<label for="id" style="color:black"> Id: </label>
+<p th:text="${user.getId()}" id="id">VALUE</p>
 
 <a th:href="@{/main/{id}/edit(id=${user.getId()})}"> Edit </a>
 

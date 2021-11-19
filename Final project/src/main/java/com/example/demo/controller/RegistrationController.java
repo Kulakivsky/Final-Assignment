@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.auth.ApplicationUser;
-import com.example.demo.auth.ApplicationUserDaoService;
+import com.example.demo.datasource.ApplicationUserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors())
             return "main/registration";
 
-        applicationUserDaoService.save(applicationUser);
+        applicationUserDaoService.saveApplicationUser(applicationUser);
         return "redirect:/main/list";
     }
 
@@ -41,13 +41,13 @@ public class RegistrationController {
 
     @GetMapping("main/{id}")
     public String show(@PathVariable("id")int id, Model model) {
-        model.addAttribute("user", applicationUserDaoService.show(id));
+        model.addAttribute("user", applicationUserDaoService.showApplicationUser(id));
         return "main/show";
     }
 
     @GetMapping("main/{id}/edit")
     public String editUser(Model model, @PathVariable("id") int id) {
-        model.addAttribute("applicationUser", applicationUserDaoService.show(id));
+        model.addAttribute("applicationUser", applicationUserDaoService.showApplicationUser(id));
         return "main/edit";
     }
 
@@ -58,13 +58,14 @@ public class RegistrationController {
         if(bindingResult.hasErrors())
             return "main/edit";
 
-        applicationUserDaoService.update(id, applicationUser);
+        applicationUserDaoService.updateApplicationUser(id, applicationUser);
         return "redirect:/main/list";
     }
 
     @PostMapping ("main/{id}/delete")
     public String deleteUser(@PathVariable("id") int id) {
-        applicationUserDaoService.delete(id);
+        System.out.println("delete");
+        applicationUserDaoService.deleteApplicationUser(id);
         return "redirect:/main/list";
     }
 }
