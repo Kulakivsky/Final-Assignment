@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.auth.ApplicationUser;
+import com.example.demo.auth.ApplicationUserDto;
 import com.example.demo.datasource.ApplicationUserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,18 +18,18 @@ public class RegistrationController {
     private ApplicationUserDaoService applicationUserDaoService;
 
     @PostMapping("main/registration")
-    public String addingNewPerson(@ModelAttribute("applicationUser") @Valid ApplicationUser applicationUser,
+    public String addingNewPerson(@ModelAttribute("applicationUserDto") @Valid ApplicationUserDto applicationUserDto,
                                   BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return "main/registration";
 
-        applicationUserDaoService.saveApplicationUser(applicationUser);
+        applicationUserDaoService.saveApplicationUser(applicationUserDto);
         return "redirect:/main/list";
     }
 
     @GetMapping("main/registration")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("applicationUser", new ApplicationUser());
+        model.addAttribute("applicationUserDto", new ApplicationUserDto());
         return "main/registration";
     }
 
@@ -47,24 +47,23 @@ public class RegistrationController {
 
     @GetMapping("main/{id}/edit")
     public String editUser(Model model, @PathVariable("id") int id) {
-        model.addAttribute("applicationUser", applicationUserDaoService.showApplicationUser(id));
+        model.addAttribute("applicationUserDto", applicationUserDaoService.showApplicationUser(id));
         return "main/edit";
     }
 
     @PostMapping ("main/{id}")
-    public String updateUser(@ModelAttribute("applicationUser")  @Valid ApplicationUser applicationUser,
+    public String updateUser(@ModelAttribute("applicationUserDto")  @Valid ApplicationUserDto applicationUserDto,
                              BindingResult bindingResult,
                              @PathVariable("id") int id) {
         if(bindingResult.hasErrors())
             return "main/edit";
 
-        applicationUserDaoService.updateApplicationUser(id, applicationUser);
+        applicationUserDaoService.updateApplicationUser(id, applicationUserDto);
         return "redirect:/main/list";
     }
 
     @PostMapping ("main/{id}/delete")
     public String deleteUser(@PathVariable("id") int id) {
-        System.out.println("delete");
         applicationUserDaoService.deleteApplicationUser(id);
         return "redirect:/main/list";
     }

@@ -20,6 +20,9 @@
 <label for="id" style="color:black"> Id: </label>
 <p th:text="${user.getId()}" id="id">VALUE</p>
 
+<label for="balance" style="color:black"> Balance ID: </label>
+<p th:text="${user.getBalance_id()}" id="balance">VALUE</p>
+
 <a th:href="@{/main/{id}/edit(id=${user.getId()})}"> Edit </a>
 
 <form method="post" th:href="@{/main/{id}/delete(id=${user.getId()})}" >

@@ -3,7 +3,6 @@ package com.example.demo.auth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.swing.tree.RowMapper;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -11,38 +10,39 @@ import java.util.Set;
 
 import static com.example.demo.security.ApplicationUserRole.STUDENT;
 
-public class ApplicationUser implements UserDetails {
+public class ApplicationUserDto implements UserDetails {
 
-//    TODO: Make Id unique value for user
+
     private int id;
-
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max =30, message = "Name should be between 2 and 30 characters")
     private String username;
 
     @NotEmpty(message = "Password should not be empty")
     private String password;
-    private int balance;
+
+
+    private int balance_id;
     private Set<? extends GrantedAuthority> grantedAuthorities = STUDENT.getGrantedAuthority(); //ADMIN.getGrantedAuthority()
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;
     private boolean isEnabled = true;
 
-    public ApplicationUser() {}
+    public ApplicationUserDto() {}
 
-    public ApplicationUser(String username,
-                           String password) {
+    public ApplicationUserDto(String username,
+                              String password) {
         this.username = username;
         this.password = password;
     }
 
-    public int getBalance() {
-        return balance;
+    public int getBalance_id() {
+        return balance_id;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setBalance_id(int balance_id) {
+        this.balance_id = balance_id;
     }
 
     public int getId() {

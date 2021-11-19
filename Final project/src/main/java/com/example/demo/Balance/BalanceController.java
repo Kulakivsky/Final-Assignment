@@ -1,8 +1,6 @@
-package com.example.demo.controller;
+package com.example.demo.Balance;
 
-import com.example.demo.auth.ApplicationUser;
-import com.example.demo.datasource.ApplicationUserDaoService;
-import com.example.demo.datasource.BalanceDao;
+import com.example.demo.auth.ApplicationUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,20 +18,20 @@ public class BalanceController {
     @Autowired
     private BalanceDao balanceDao;
 
-    @PostMapping("main/balance/{id}/edit")
+    @PostMapping("main/balance/{id}/editBalance")
     public String addingNewPerson(@PathVariable("id") int id,
-                                  @ModelAttribute("applicationUser") @Valid ApplicationUser applicationUser,
+                                  @ModelAttribute("balanceDto") @Valid BalanceDto balanceDto,
                                   BindingResult bindingResult){
         if (bindingResult.hasErrors())
-            return "main/registration";
+            return "main/balance/editBalance";
 
-        balanceDao.editBalance(id, applicationUser);
+        balanceDao.updateBalance(id, balanceDto);
         return "redirect:/main/list";
     }
 
-    @GetMapping("main/balance/{id}/showBalance")
+    @GetMapping("main/balance/{id}/editBalance")
     public String showRegistrationForm(@PathVariable("id") int id, Model model) {
-//        model.addAttribute("applicationUser", applicationUserDaoService.showApplicationUser(id));
-        return "main/registration";
+        model.addAttribute("balanceDto", balanceDao.showBalance(id));
+        return "main/balance/editBalance";
     }
 }

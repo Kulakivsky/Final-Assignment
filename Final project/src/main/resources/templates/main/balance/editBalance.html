@@ -15,14 +15,12 @@
 
 
 
-<form method="post" th:action="@{/main/{id}(id=${applicationUser.getId()})}" th:object="${applicationUser}" role="form">
+<form method="post" th:action="@{/main/balance/{id}/editBalance(id=${balanceDto.getBalanceId()})}" th:object="${balanceDto}" role="form">
 
-    <label for="username"> Firstname </label>
-    <input type="text" th:field="*{username}" id="username" name="username" size="15"/> <br> <br>
-    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" >Username error</div>
-    <input type="text" th:field="*{password}" id="password" name="password" size="15"/> <br> <br>
-    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >Password error</div>
-    <input type="submit" name="action" value="EDIT"/>
+    <label for="balance"> Balance </label>
+    <input type="text" th:field="*{balance}" id="balance" name="balance" size="15"/> <br> <br>
+    <div style="color:red" th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}">Balance error</div>
+    <input type="submit" name="action" value="Top up balance"/>
 </form>
 
 

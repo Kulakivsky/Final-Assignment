@@ -15,7 +15,7 @@
 
 
 
-<form method="post" th:action="@{/main/{id}(id=${applicationUser.getId()})}" th:object="${applicationUser}" role="form">
+<form method="post" th:action="@{/main/{id}(id=${applicationUserDto.getId()})}" th:object="${applicationUserDto}" role="form">
 
     <label for="username"> Firstname </label>
     <input type="text" th:field="*{username}" id="username" name="username" size="15"/> <br> <br>
@@ -23,10 +23,11 @@
     <input type="text" th:field="*{password}" id="password" name="password" size="15"/> <br> <br>
     <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >Password error</div>
     <input type="submit" name="action" value="EDIT"/>
+
 </form>
 
+<a th:href="@{http://localhost:5000/main/balance/{id}/editBalance (id=${applicationUserDto.getBalance_id()})}" th:object="${applicationUserDto}" class="btn btn-info" role="button">Edit my Balance</a>
 
-<br>
-<a href="http://localhost:8080/login" class="btn btn-info" role="button">Link Button</a>
+
 </body>
 </html>
