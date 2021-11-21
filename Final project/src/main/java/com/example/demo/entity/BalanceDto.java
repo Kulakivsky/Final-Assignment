@@ -1,4 +1,4 @@
-package com.example.demo.Balance;
+package com.example.demo.entity;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

@@ -1,7 +1,6 @@
-package com.example.demo.Balance;
+package com.example.demo.datasource;
 
-import com.example.demo.auth.ApplicationUserDto;
-import com.example.demo.datasource.ApplicationUserMapper;
+import com.example.demo.entity.BalanceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -30,15 +29,11 @@ public class BalanceDao {
 
     public int createBalance() {
         BalanceDto balanceDto = new BalanceDto();
-        Map<String, Object> parameters = new HashMap<>(1);
+        Map<String, Object> parameters = new HashMap<>();
         parameters.put("balance", balanceDto.getBalance());
         simpleJdbcInsert.executeAndReturnKey(parameters);
 
         return (int) simpleJdbcInsert.executeAndReturnKey(parameters);
-//        jdbcTemplate.update("INSERT INTO balance (balance) VALUES(?)",
-//                balanceDto.getBalance());
-//
-//       return jdbcTemplate.queryForObject("SELECT last_insert_id() FROM balance", Integer.class);
     }
 
     public void updateBalance(int id, BalanceDto balanceDto) {
@@ -68,11 +63,11 @@ public class BalanceDao {
     }
 
     public BalanceDto showBalance(int id) {
+        BalanceDto balanceDto = new BalanceDto();
+        Map<String, Object> balanceMap = jdbcTemplate.queryForMap("SELECT * FROM balance WHERE balance_id=?", id);
+        balanceDto.setBalanceId(id);
+        balanceDto.setBalance((Integer) balanceMap.get("balance"));
 
-        BalanceDto balanceDto = jdbcTemplate.queryForObject("SELECT * FROM balance WHERE balance_id=?",
-                new Object[]{id},  new BalanceMapper());
         return balanceDto;
     }
-
-
 }

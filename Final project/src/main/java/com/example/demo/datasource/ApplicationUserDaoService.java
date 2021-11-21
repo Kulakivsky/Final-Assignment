@@ -1,7 +1,6 @@
 package com.example.demo.datasource;
 
-import com.example.demo.Balance.BalanceDao;
-import com.example.demo.auth.ApplicationUserDto;
+import com.example.demo.entity.ApplicationUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -73,9 +73,14 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
     }
 
     public ApplicationUserDto showApplicationUser(int id) {
+        ApplicationUserDto applicationUserDto = new ApplicationUserDto();
 
-        ApplicationUserDto applicationUser = jdbcTemplate.queryForObject("SELECT * FROM applicationUser WHERE id=?",
-                                new Object[]{id},  new ApplicationUserMapper());
-        return applicationUser;
+        Map<String, Object> applicationUserMap = jdbcTemplate.queryForMap("SELECT * FROM applicationuser WHERE id=?", id);
+
+        applicationUserDto.setId(id);
+        applicationUserDto.setUsername((String) applicationUserMap.get("username"));
+        applicationUserDto.setPassword((String) applicationUserMap.get("password"));
+        applicationUserDto.setBalance_id((Integer) applicationUserMap.get("balance_id"));
+        return applicationUserDto;
     }
 }

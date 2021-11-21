@@ -1,6 +1,6 @@
 package com.example.demo.datasource;
 
-import com.example.demo.auth.ApplicationUserDto;
+import com.example.demo.entity.ApplicationUserDto;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.auth.ApplicationUserDto;
+import com.example.demo.entity.ApplicationUserDto;
 import com.example.demo.datasource.ApplicationUserDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
