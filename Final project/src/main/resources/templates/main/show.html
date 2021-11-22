@@ -17,15 +17,36 @@
 <label for="username" style="color:black"> Username: </label>
 <p th:text="${user.getUsername()}" id = "username">VALUE</p>
 
+<label for="password" style="color:black"> Password: </label>
+<p th:text="${user.getPassword()}" id = "password">VALUE</p>
+
 <label for="id" style="color:black"> Id: </label>
 <p th:text="${user.getId()}" id="id">VALUE</p>
 
 <label for="balance" style="color:black"> Balance ID: </label>
-<p th:text="${user.getBalance_id()}" id="balance">VALUE</p>
+<p th:text="${user.getBalanceId()}" id="balance">VALUE</p>
 
-<a th:href="@{/main/{id}/edit(id=${user.getId()})}"> Edit </a>
+<label for="balanceValue" style="color:black"> Balance Value: </label>
+<p th:text="${balance.getBalance()}" id="balanceValue">VALUE</p>
 
-<form method="post" th:href="@{/main/{id}/delete(id=${user.getId()})}" >
+<label for="Internet" style="color:black"> Internet service: </label>
+<p th:text="${internet.getNameOfTariff()}" id="Internet">VALUE</p>
+
+<label for="Phone" style="color:black"> Phone service: </label>
+<p th:text="${phone.getNameOfTariff()}" id="Phone">VALUE</p>
+
+<label for="Tv" style="color:black"> Tv service: </label>
+<p th:text="${tv.getNameOfTariff()}" id="Tv">VALUE</p>
+
+
+<a th:href="@{/main/{id}/edit(id=${user.getId()})}"> Edit Credentials </a>
+<br>
+<br>
+<a th:href="@{/main/balance/{id}/editBalance (id=${user.getBalanceId()})}" th:object="${user}" class="btn btn-info" role="button">Top up my Balance</a>
+<br>
+<br>
+
+<form method="post" th:action="@{/main/delete/{id}(id=${user.getId()})}" role="form">
     <button type="submit" name="submit">DELETE</button>
 </form>
 

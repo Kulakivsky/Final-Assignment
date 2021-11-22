@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.user;
 
 import com.example.demo.datasource.BalanceDao;
 import com.example.demo.entity.BalanceDto;

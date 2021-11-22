@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">>
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
@@ -7,7 +11,20 @@
 <body>
 <h1>Main Page</h1>
 
-<a href="http://localhost:8080/main/registration" class="btn btn-info" role="button">Registration</a>
+<a th:href="@{/main/registration}" class="btn btn-info" role="button">Registration</a>
+<br>
+<a th:href="@{/admin/internet/list}" class="btn btn-info" role="button">Show list of Internet Service</a>
+<br>
+<a th:href="@{/admin/phone/list}" class="btn btn-info" role="button">Show list of Phone Service</a>
+<br>
+<a th:href="@{/admin/tv/list}" class="btn btn-info" role="button">Show list of tv Service</a>
+
+<br>
+<br>
+<br>
+<br>
+<a th:href="@{/main/list}" class="btn btn-info" role="button">Show list of users</a>
+
 
 </body>
 </html>

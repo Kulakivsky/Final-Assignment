@@ -75,6 +75,7 @@ public class InternetServiceDAO {
         InternetServiceDTO internetServiceDTO = new InternetServiceDTO();
 
         Map<String, Object> internetServiceMap = jdbcTemplate.queryForMap("SELECT * FROM internet_service WHERE internet_service_id=?", id);
+        internetServiceDTO.setId(id);
         internetServiceDTO.setNameOfTariff((String) internetServiceMap.get("name_of_tariff"));
         internetServiceDTO.setPriceOfTariff((Integer) internetServiceMap.get("price_of_tariff"));
         internetServiceDTO.setSpeedOfInternet((Integer) internetServiceMap.get("speed_of_internet"));

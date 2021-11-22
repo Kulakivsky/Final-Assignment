@@ -53,6 +53,7 @@ public class AdminInternetController {
     public String addingNewInternetService(@PathVariable("id") int id,
                                            @ModelAttribute("internetServiceDTO") @Valid InternetServiceDTO internetServiceDTO,
                                            BindingResult bindingResult) {
+
         if (bindingResult.hasErrors())
             return "admin/internet/editInternetService";
 

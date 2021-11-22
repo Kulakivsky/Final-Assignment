@@ -34,8 +34,10 @@
     <input type="submit" name="action" value="Edit internet tariff"/>
 </form>
 
-<a th:method="post" th:href="@{/internet/delete/{id} (id=${internetServiceDTO.getId()})}" th:object="${internetServiceDTO}" class="btn btn-info" role="button">Delete Service</a>
 
+<form method="post" th:action="@{/admin/internet/delete/{id} (id=${internetServiceDTO.getId()})}" th:object="${internetServiceDTO}" role="form">
+    <button type="submit" name="submit">Delete Internet Service</button>
+</form>
 
 </body>
 </html>

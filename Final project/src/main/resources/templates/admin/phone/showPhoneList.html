@@ -19,5 +19,8 @@
     <a th:text="${phone.getNameOfTariff()}" th:href="@{/admin/internet/update/{id}(id=${phone.getId()})}">phone</a>
 </div>
 
+<br>
+<a th:href="@{/admin/phone/add}" class="btn btn-info" role="button">Add Phone service</a>
+
 </body>
 </html>

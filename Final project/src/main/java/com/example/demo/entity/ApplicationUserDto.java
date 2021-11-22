@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.services.InternetServiceDTO;
+import com.example.demo.entity.services.PhoneServiceDTO;
+import com.example.demo.entity.services.TvServiceDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,7 +25,16 @@ public class ApplicationUserDto implements UserDetails {
     private String password;
 
 
-    private int balance_id;
+    private int balanceId;
+    //    TODO change default number later and delete DTO;
+//    private InternetServiceDTO internetServiceDTO;
+//    private PhoneServiceDTO phoneServiceDTO;
+//    private TvServiceDTO tvServiceDTO;
+
+    private int internetServiceId = 0;
+    private int phoneServiceId = 0;
+    private int tvServiceId = 0;
+
     private Set<? extends GrantedAuthority> grantedAuthorities = STUDENT.getGrantedAuthority(); //ADMIN.getGrantedAuthority()
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
@@ -31,18 +43,48 @@ public class ApplicationUserDto implements UserDetails {
 
     public ApplicationUserDto() {}
 
-    public ApplicationUserDto(String username,
-                              String password) {
+    public ApplicationUserDto(int id, String username,
+                              String password, int internetServiceId, int phoneServiceId,
+                              int tvServiceId, int balanceId) {
+        this.id = id;
         this.username = username;
         this.password = password;
+        this.internetServiceId = internetServiceId;
+        this.phoneServiceId = phoneServiceId;
+        this.tvServiceId = tvServiceId;
+        this.balanceId = balanceId;
     }
 
-    public int getBalance_id() {
-        return balance_id;
+    public int getInternetServiceId() {
+        return internetServiceId;
     }
 
-    public void setBalance_id(int balance_id) {
-        this.balance_id = balance_id;
+    public void setInternetServiceId(int internetServiceId) {
+        this.internetServiceId = internetServiceId;
+    }
+
+    public int getPhoneServiceId() {
+        return phoneServiceId;
+    }
+
+    public void setPhoneServiceId(int phoneServiceId) {
+        this.phoneServiceId = phoneServiceId;
+    }
+
+    public int getTvServiceId() {
+        return tvServiceId;
+    }
+
+    public void setTvServiceId(int tvServiceId) {
+        this.tvServiceId = tvServiceId;
+    }
+
+    public int getBalanceId() {
+        return balanceId;
+    }
+
+    public void setBalanceId(int balance_id) {
+        this.balanceId = balance_id;
     }
 
     public int getId() {

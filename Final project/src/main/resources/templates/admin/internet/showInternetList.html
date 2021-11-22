@@ -16,8 +16,11 @@
 <h1>List of Internet Services </h1>
 
 <div th:each="internet: ${internetList}" >
-    <a th:text="${internet.getNameOfTariff()}" th:href="@{/admin/internet/update/{id}(id=${internet.getInternetService_id()})}">internet</a>
+    <a th:text="${internet.getNameOfTariff()}" th:href="@{/admin/internet/update/{id}(id=${internet.getId()})}">internet</a>
 </div>
+
+<br>
+<a th:href="@{/admin/internet/add}" class="btn btn-info" role="button">Add Internet service</a>
 
 </body>
 </html>

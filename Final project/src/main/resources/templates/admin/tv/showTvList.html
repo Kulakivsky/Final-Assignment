@@ -19,5 +19,7 @@
     <a th:text="${tv.getNameOfTariff()}" th:href="@{/admin/tv/update/{id}(id=${tv.getId()})}">Tv</a>
 </div>
 
+<br>
+<a th:href="@{/admin/tv/add}" class="btn btn-info" role="button">Add TV service</a>
 </body>
 </html>
