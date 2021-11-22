@@ -16,8 +16,12 @@ import javax.validation.Valid;
 @Controller
 public class BalanceController {
 
-    @Autowired
     private BalanceDao balanceDao;
+
+    @Autowired
+    public BalanceController(BalanceDao balanceDao) {
+        this.balanceDao = balanceDao;
+    }
 
     @PostMapping("main/balance/{id}/editBalance")
     public String addingNewPerson(@PathVariable("id") int id,
@@ -31,7 +35,7 @@ public class BalanceController {
     }
 
     @GetMapping("main/balance/{id}/editBalance")
-    public String showRegistrationForm(@PathVariable("id") int id, Model model) {
+    public String showBalance(@PathVariable("id") int id, Model model) {
         model.addAttribute("balanceDto", balanceDao.showBalance(id));
         return "main/balance/editBalance";
     }

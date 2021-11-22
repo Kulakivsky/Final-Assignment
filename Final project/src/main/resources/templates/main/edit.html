@@ -20,13 +20,14 @@
     <label for="username"> Firstname </label>
     <input type="text" th:field="*{username}" id="username" name="username" size="15"/> <br> <br>
     <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" >Username error</div>
+    <label for="username"> Password </label>
     <input type="text" th:field="*{password}" id="password" name="password" size="15"/> <br> <br>
     <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >Password error</div>
     <input type="submit" name="action" value="EDIT"/>
 
 </form>
 
-<a th:href="@{http://localhost:5000/main/balance/{id}/editBalance (id=${applicationUserDto.getBalance_id()})}" th:object="${applicationUserDto}" class="btn btn-info" role="button">Edit my Balance</a>
+<a th:href="@{/main/balance/{id}/editBalance (id=${applicationUserDto.getBalance_id()})}" th:object="${applicationUserDto}" class="btn btn-info" role="button">Edit my Balance</a>
 
 
 </body>

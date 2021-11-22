@@ -14,8 +14,12 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
-    @Autowired
     private ApplicationUserDaoService applicationUserDaoService;
+
+    @Autowired
+    public RegistrationController(ApplicationUserDaoService applicationUserDaoService) {
+        this.applicationUserDaoService = applicationUserDaoService;
+    }
 
     @PostMapping("main/registration")
     public String addingNewPerson(@ModelAttribute("applicationUserDto") @Valid ApplicationUserDto applicationUserDto,

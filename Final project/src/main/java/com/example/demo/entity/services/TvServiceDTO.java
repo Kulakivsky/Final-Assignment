@@ -1,23 +1,33 @@
-package com.example.demo.entity;
+package com.example.demo.entity.services;
 
-public class TvServiceDTO {
+import static com.example.demo.entity.services.ServiceType.INTERNET;
+import static com.example.demo.entity.services.ServiceType.TV;
 
-    private int tvService_id;
+public class TvServiceDTO implements Service {
+
+    private int id;
+    private ServiceType type = TV;
 
     private String nameOfTariff;
     private int priceOfTariff;
 
     private int numberOfChannels;
 
-
-    public int getTvService_id() {
-        return tvService_id;
+    @Override
+    public ServiceType getType() {
+        return type;
     }
 
-    public void setTvService_id(int tvService_id) {
-        this.tvService_id = tvService_id;
+    @Override
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
     public String getNameOfTariff() {
         return nameOfTariff;
     }
@@ -25,7 +35,8 @@ public class TvServiceDTO {
     public void setNameOfTariff(String nameOfTariff) {
         this.nameOfTariff = nameOfTariff;
     }
-
+    
+    @Override
     public int getPriceOfTariff() {
         return priceOfTariff;
     }

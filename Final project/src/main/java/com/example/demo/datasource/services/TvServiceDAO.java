@@ -1,6 +1,6 @@
-package com.example.demo.datasource;
+package com.example.demo.datasource.services;
 
-import com.example.demo.entity.TvServiceDTO;
+import com.example.demo.entity.services.TvServiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -24,25 +24,21 @@ public class TvServiceDAO {
         public TvServiceDAO(JdbcTemplate jdbcTemplate, DataSource dataSource) {
             this.jdbcTemplate = jdbcTemplate;
             simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                    .withTableName("tvService").usingGeneratedKeyColumns("tvService_id");
+                    .withTableName("tv_service").usingGeneratedKeyColumns("tv_service_id");
         }
 
-        public int createTvService() {
-            TvServiceDTO tvServiceDTO = new TvServiceDTO();
-
+        public int createTvService(TvServiceDTO tvServiceDTO) {
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("nameOfTariff", tvServiceDTO.getNameOfTariff());
-            parameters.put("priceOfTariff", tvServiceDTO.getPriceOfTariff());
-            parameters.put("numberOfChannels", tvServiceDTO.getNumberOfChannels());
-
-            simpleJdbcInsert.executeAndReturnKeyHolder(parameters);
+            parameters.put("name_of_tariff", tvServiceDTO.getNameOfTariff());
+            parameters.put("price_of_tariff", tvServiceDTO.getPriceOfTariff());
+            parameters.put("number_of_channels", tvServiceDTO.getNumberOfChannels());
 
             return (int) simpleJdbcInsert.executeAndReturnKey(parameters);
         }
 
         public void updateTvService(int id, TvServiceDTO tvServiceDTO) {
-            jdbcTemplate.update("UPDATE tvService SET nameOfTariff=?, priceOfTariff=?," +
-                            " numberOfChannels=? WHERE tvService_id=?",
+            jdbcTemplate.update("UPDATE tv_service SET name_of_tariff=?, price_of_tariff=?," +
+                            " number_of_channels=? WHERE tv_service_id=?",
                     tvServiceDTO.getNameOfTariff(),
                     tvServiceDTO.getPriceOfTariff(),
                     tvServiceDTO.getNumberOfChannels(),
@@ -50,20 +46,20 @@ public class TvServiceDAO {
         }
 
         public void deleteTvService(int id){
-            jdbcTemplate.update("DELETE FROM tvService WHERE tvService_id=?", id);
+            jdbcTemplate.update("DELETE FROM tv_service WHERE tv_service_id=?", id);
         }
 
         public List<TvServiceDTO> getTvServiceList() {
             tvServiceList.clear();
 
-            SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM tvService");
+            SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM tv_service");
 
             while (sqlRowSet.next()) {
                 TvServiceDTO tvServiceDTO = new TvServiceDTO();
-                tvServiceDTO.setTvService_id(sqlRowSet.getInt("tvService_id"));
-                tvServiceDTO.setNameOfTariff(sqlRowSet.getString("nameOfTariff"));
-                tvServiceDTO.setPriceOfTariff(sqlRowSet.getInt("priceOfTariff"));
-                tvServiceDTO.setNumberOfChannels(sqlRowSet.getInt("numberOfChannels"));
+                tvServiceDTO.setId(sqlRowSet.getInt("tv_service_id"));
+                tvServiceDTO.setNameOfTariff(sqlRowSet.getString("name_of_tariff"));
+                tvServiceDTO.setPriceOfTariff(sqlRowSet.getInt("price_of_tariff"));
+                tvServiceDTO.setNumberOfChannels(sqlRowSet.getInt("number_of_channels"));
                 tvServiceList.add(tvServiceDTO);
             }
             return tvServiceList;
@@ -73,11 +69,11 @@ public class TvServiceDAO {
         public TvServiceDTO showTvService(int id) {
             TvServiceDTO tvServiceDTO = new TvServiceDTO();
 
-            Map<String, Object> tvServiceMap = jdbcTemplate.queryForMap("SELECT * FROM tvService WHERE tvService_id=?", id);
-            tvServiceDTO.setTvService_id(id);
-            tvServiceDTO.setNameOfTariff((String) tvServiceMap.get("nameOfTariff"));
-            tvServiceDTO.setPriceOfTariff((Integer) tvServiceMap.get("priceOfTariff"));
-            tvServiceDTO.setNumberOfChannels((Integer) tvServiceMap.get("numberOfChannels"));
+            Map<String, Object> tvServiceMap = jdbcTemplate.queryForMap("SELECT * FROM tv_service WHERE tv_service_id=?", id);
+            tvServiceDTO.setId(id);
+            tvServiceDTO.setNameOfTariff((String) tvServiceMap.get("name_of_tariff"));
+            tvServiceDTO.setPriceOfTariff((Integer) tvServiceMap.get("price_of_tariff"));
+            tvServiceDTO.setNumberOfChannels((Integer) tvServiceMap.get("number_of_channels"));
 
             return tvServiceDTO;
         }

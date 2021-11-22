@@ -1,8 +1,11 @@
-package com.example.demo.entity;
+package com.example.demo.entity.services;
 
-public class InternetServiceDTO {
+import static com.example.demo.entity.services.ServiceType.INTERNET;
 
-    private int internetService_id;
+public class InternetServiceDTO implements Service {
+
+    private int id;
+    private ServiceType type = INTERNET;
 
     private String nameOfTariff;
     private int priceOfTariff;
@@ -10,25 +13,32 @@ public class InternetServiceDTO {
     private int speedOfInternet;
     private int numberOfData;
 
-
-    public int getInternetService_id() {
-        return internetService_id;
+    @Override
+    public ServiceType getType() {
+        return type;
     }
 
-    public void setInternetService_id(int internetService_id) {
-        this.internetService_id = internetService_id;
+    @Override
+    public int getId() {
+        return id;
     }
 
+    @Override
     public String getNameOfTariff() {
         return nameOfTariff;
     }
 
-    public void setNameOfTariff(String nameOfTariff) {
-        this.nameOfTariff = nameOfTariff;
-    }
-
+    @Override
     public int getPriceOfTariff() {
         return priceOfTariff;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNameOfTariff(String nameOfTariff) {
+        this.nameOfTariff = nameOfTariff;
     }
 
     public void setPriceOfTariff(int priceOfTariff) {

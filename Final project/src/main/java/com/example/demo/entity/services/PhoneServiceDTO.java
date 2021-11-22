@@ -1,8 +1,12 @@
-package com.example.demo.entity;
+package com.example.demo.entity.services;
 
-public class PhoneServiceDTO {
+import static com.example.demo.entity.services.ServiceType.INTERNET;
+import static com.example.demo.entity.services.ServiceType.PHONE;
 
-    private int phoneService_id;
+public class PhoneServiceDTO implements Service{
+
+    private int id;
+    private ServiceType type = PHONE;
 
     private String nameOfTariff;
     private int priceOfTariff;
@@ -10,15 +14,21 @@ public class PhoneServiceDTO {
     private int numberOfMinutes;
     private int numberOfData;
 
-
-    public int getPhoneService_id() {
-        return phoneService_id;
+    @Override
+    public ServiceType getType() {
+        return type;
     }
 
-    public void setPhoneService_id(int phoneService_id) {
-        this.phoneService_id = phoneService_id;
+    @Override
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
     public String getNameOfTariff() {
         return nameOfTariff;
     }
@@ -27,6 +37,7 @@ public class PhoneServiceDTO {
         this.nameOfTariff = nameOfTariff;
     }
 
+    @Override
     public int getPriceOfTariff() {
         return priceOfTariff;
     }

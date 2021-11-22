@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.example.demo.security;
 
 import com.example.demo.datasource.ApplicationUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
