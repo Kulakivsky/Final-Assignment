@@ -51,6 +51,10 @@ public class PhoneServiceDAO {
         jdbcTemplate.update("DELETE FROM phone_service WHERE phone_service_id=?", id);
     }
 
+    /**
+     *
+     * This method won't return service with id=0, as it is service one;
+     */
     public List<PhoneServiceDTO> getPhoneServiceList() {
         phoneServiceList.clear();
 
@@ -66,6 +70,8 @@ public class PhoneServiceDAO {
             phoneServiceDTO.setNumberOfMinutes(sqlRowSet.getInt("number_of_minutes"));
             phoneServiceList.add(phoneServiceDTO);
         }
+        phoneServiceList.remove(0);
+
         return phoneServiceList;
     }
 

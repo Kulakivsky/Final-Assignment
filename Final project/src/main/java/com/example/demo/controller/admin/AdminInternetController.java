@@ -1,6 +1,8 @@
 package com.example.demo.controller.admin;
 
 import com.example.demo.datasource.services.InternetServiceDAO;
+import com.example.demo.datasource.services.PhoneServiceDAO;
+import com.example.demo.datasource.services.TvServiceDAO;
 import com.example.demo.entity.ApplicationUserDto;
 import com.example.demo.entity.services.InternetServiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,8 @@ import javax.validation.Valid;
 @Controller
 public class AdminInternetController {
 
-    private InternetServiceDAO internetServiceDAO;
+    private final String REDIRECT = "redirect:/admin/servicelist";
+    private final InternetServiceDAO internetServiceDAO;
 
     @Autowired
     public AdminInternetController(InternetServiceDAO internetServiceDAO) {
@@ -26,51 +29,52 @@ public class AdminInternetController {
 
     // Create
     @PostMapping("admin/internet/add")
-    public String addingNewPerson(@ModelAttribute("internetServiceDTO") @Valid InternetServiceDTO internetServiceDTO,
-                                  BindingResult bindingResult){
+    public String addingNewInternetService(@ModelAttribute("internetServiceDTO") @Valid InternetServiceDTO internetServiceDTO,
+                                           BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return "admin/internet/createInternetService";
 
         internetServiceDAO.createInternetService(internetServiceDTO);
-        return "redirect:/admin/internet/list";
+        return REDIRECT;
     }
+
     // Create
     @GetMapping("admin/internet/add")
-    public String showRegistrationForm(Model model) {
+    public String showNewInternetServiceForm(Model model) {
         model.addAttribute("internetServiceDTO", new InternetServiceDTO());
         return "admin/internet/createInternetService";
     }
 
-    // Read
-    @GetMapping("admin/internet/list")
-    public String showListOfPeople(Model model) {
-        model.addAttribute("internetList", internetServiceDAO.getInternetServiceList());
-        return "admin/internet/showInternetList";
-    }
-
     /////// Update
     @PostMapping("admin/internet/update/{id}")
-    public String addingNewInternetService(@PathVariable("id") int id,
-                                           @ModelAttribute("internetServiceDTO") @Valid InternetServiceDTO internetServiceDTO,
-                                           BindingResult bindingResult) {
+    public String updateInternetService(@PathVariable("id") int id,
+                                        @ModelAttribute("internetServiceDTO") @Valid InternetServiceDTO internetServiceDTO,
+                                        BindingResult bindingResult) {
 
         if (bindingResult.hasErrors())
             return "admin/internet/editInternetService";
 
         internetServiceDAO.updateInternetService(id, internetServiceDTO);
-        return "redirect:/admin/internet/list";
+        return REDIRECT;
     }
+
     /////// Update
     @GetMapping("admin/internet/update/{id}")
-    public String showRegistrationForm(@PathVariable("id") int id, Model model) {
+    public String showInternetServiceFormForUpdate(@PathVariable("id") int id, Model model) {
         model.addAttribute("internetServiceDTO", internetServiceDAO.showInternetService(id));
         return "admin/internet/editInternetService";
     }
 
-    //Delete
+    /**
+     *
+     * service with id=0 shouldn't be deleted. It's default for a new user
+     */
     @PostMapping ("admin/internet/delete/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deleteInternetService(@PathVariable("id") int id) {
+        if(id == 0 ){
+            return REDIRECT;
+        }
         internetServiceDAO.deleteInternetService(id);
-        return "redirect:/admin/internet/list";
+        return REDIRECT;
     }
 }

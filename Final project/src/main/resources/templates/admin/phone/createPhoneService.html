@@ -20,7 +20,7 @@
     <div style="color:red" th:if="${#fields.hasErrors('nameOfTariff')}" th:errors="*{nameOfTariff}">Name error</div>
     <br> <br>
     <label for="priceOfTariff"> Price of the tariff: </label>
-    <input type="priceOfTariff" th:field="*{priceOfTariff}" id="priceOfTariff" name="password" size="15"/>
+    <input type="number" th:field="*{priceOfTariff}" id="priceOfTariff" name="password" size="15"/>
     <div style="color:red" th:if="${#fields.hasErrors('priceOfTariff')}" th:errors="*{priceOfTariff}" >Price error</div>
     <br> <br>
     <label for="numberOfMinutes"> Number of the Internet: </label>

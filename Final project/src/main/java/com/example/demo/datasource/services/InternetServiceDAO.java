@@ -48,10 +48,13 @@ public class InternetServiceDAO {
                 id);
     }
 
-    public void deleteInternetService(int id){
+    public void deleteInternetService(int id) {
         jdbcTemplate.update("DELETE FROM internet_service WHERE internet_service_id=?", id);
     }
 
+    /**
+     * This method won't return service with id=0, as it is service one;
+     */
     public List<InternetServiceDTO> getInternetServiceList() {
         internetServiceList.clear();
 
@@ -68,6 +71,7 @@ public class InternetServiceDAO {
 
             internetServiceList.add(internetServiceDTO);
         }
+        internetServiceList.remove(0);
         return internetServiceList;
     }
 

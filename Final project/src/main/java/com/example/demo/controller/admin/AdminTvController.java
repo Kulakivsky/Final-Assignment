@@ -18,6 +18,7 @@ import javax.validation.Valid;
 @Controller
 public class AdminTvController {
 
+    private final String REDIRECT = "redirect:/admin/servicelist";
     private TvServiceDAO tvServiceDAO;
 
     @Autowired
@@ -27,50 +28,49 @@ public class AdminTvController {
 
     // Create
     @PostMapping("admin/tv/add")
-    public String addingNewPerson(@ModelAttribute("tvServiceDTO") @Valid TvServiceDTO tvServiceDTO,
+    public String addingNewPhoneService(@ModelAttribute("tvServiceDTO") @Valid TvServiceDTO tvServiceDTO,
                                   BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return "admin/tv/createTvService";
 
         tvServiceDAO.createTvService(tvServiceDTO);
-        return "redirect:/admin/tv/list";
+        return REDIRECT;
     }
     // Create
     @GetMapping("admin/tv/add")
-    public String showRegistrationForm(Model model) {
+    public String showNewTvServiceForm(Model model) {
         model.addAttribute("tvServiceDTO", new TvServiceDTO());
         return "admin/tv/createTvService";
     }
 
-    // Read
-    @GetMapping("admin/tv/list")
-    public String showListOfPeople(Model model) {
-        model.addAttribute("tvList", tvServiceDAO.getTvServiceList());
-        return "admin/tv/showTvList";
-    }
-
     /////// Update
     @PostMapping("admin/tv/update/{id}")
-    public String addingNewInternetService(@PathVariable("id") int id,
+    public String updateTvService(@PathVariable("id") int id,
                                            @ModelAttribute("tvServiceDTO") @Valid TvServiceDTO tvServiceDTO,
                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "admin/tv/editTvService";
 
         tvServiceDAO.updateTvService(id, tvServiceDTO);
-        return "redirect:/admin/tv/list";
+        return REDIRECT;
     }
     /////// Update
     @GetMapping("admin/tv/update/{id}")
-    public String showRegistrationForm(@PathVariable("id") int id, Model model) {
+    public String showPhoneServiceFormForUpdate(@PathVariable("id") int id, Model model) {
         model.addAttribute("tvServiceDTO", tvServiceDAO.showTvService(id));
         return "admin/tv/editTvService";
     }
 
-    //Delete
+    /**
+     *
+     * service with id=0 shouldn't be deleted. It's default for a new user
+     */
     @PostMapping ("admin/tv/delete/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deleteTvService(@PathVariable("id") int id) {
+        if(id==0){
+            return REDIRECT;
+        }
         tvServiceDAO.deleteTvService(id);
-        return "redirect:/admin/tv/list";
+        return REDIRECT;
     }
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html  lang ="en"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Services List</title>
+    <meta charset="ISO-8859-1" />
+    <link rel="stylesheet" type="text/css" th:href="@{static/css/registration.css}"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+
+<b> List of Internet services: </b>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name of the tariff</th>
+        <th scope="col">Price of the tariff</th>
+        <th scope="col">Internet speed</th>
+        <th scope="col">Number of data</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="internet: ${internetList}" scope="row">
+        <td><span th:text="${internet.getNameOfTariff()}"> Name </span></td>
+        <td><span th:text="${internet.getPriceOfTariff()}"> Price </span></td>
+        <td><span th:text="${internet.getSpeedOfInternet()}"> Speed </span></td>
+        <td><span th:text="${internet.getNumberOfData()}"> Data </span></td>
+        <td>
+            <form th:method="post" th:action="@{/user/internet/addService/{id} (id = ${internet.getId()})}" role="form">
+                <button type="submit" name="submit">Add</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<b> List of Phone services: </b>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name of the tariff</th>
+        <th scope="col">Price of the tariff</th>
+        <th scope="col">Number of the data</th>
+        <th scope="col">Number of minutes </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="phone: ${phoneList}" scope="row">
+        <td><span th:text="${phone.getNameOfTariff()}"> Name </span></td>
+        <td><span th:text="${phone.getPriceOfTariff()}"> Price </span></td>
+        <td><span th:text="${phone.getNumberOfData()}"> Speed </span></td>
+        <td><span th:text="${phone.getNumberOfMinutes()}"> Data </span></td>
+        <td>
+            <form th:method="post" th:action="@{/user/phone/addService/{id} (id = ${phone.getId()})}" role="form">
+                <button type="submit" name="submit">Add</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+
+<b> List of tv services: </b>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name of the tariff</th>
+        <th scope="col">Price of the tariff</th>
+        <th scope="col">Number of Channels</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tv: ${tvList}" scope="row">
+        <td><span th:text="${tv.getNameOfTariff()}"> Name </span></td>
+        <td><span th:text="${tv.getPriceOfTariff()}"> Price </span></td>
+        <td><span th:text="${tv.getNumberOfChannels()}"> Speed </span></td>
+        <td>
+            <form th:method="post" th:action="@{/user/tv/addService/{id} (id = ${tv.getId()})}" role="form">
+                <button type="submit" name="submit">Add</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>

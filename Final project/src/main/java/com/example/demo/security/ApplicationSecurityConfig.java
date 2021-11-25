@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import static com.example.demo.security.ApplicationUserRole.*;
@@ -18,10 +19,12 @@ import static com.example.demo.security.ApplicationUserRole.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
     @Autowired
-    public ApplicationSecurityConfig(ApplicationUserService applicationUserService) {
+    public ApplicationSecurityConfig(ApplicationUserService applicationUserService, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
     }
 
@@ -30,14 +33,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/main","/main/**", "index", "/css/*", "/js/*", "/registration", "/admin/**").anonymous()
-                    .antMatchers("/api/**").hasRole(STUDENT.name())
+//                    .antMatchers("/main").anonymous()
+                    .antMatchers("/main","/main/**", "index", "/css/*", "/js/*", "/registration", "/admin/**", "/user/**").hasRole(STUDENT.name())
+                    .antMatchers("/api/**", "/main").hasRole(STUDENT.name())
                     .anyRequest()
                     .authenticated()
                     .and()
                 .formLogin()
                     .loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/courses", true)
+                    .defaultSuccessUrl("/main", true)
                     .and()
                 .rememberMe() //defaults for two weeks;
                     .and()
@@ -57,6 +61,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(applicationUserService);
         return provider;
     }

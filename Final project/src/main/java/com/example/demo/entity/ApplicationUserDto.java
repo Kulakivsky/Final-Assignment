@@ -24,7 +24,6 @@ public class ApplicationUserDto implements UserDetails {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
-
     private int balanceId;
     //    TODO change default number later and delete DTO;
 //    private InternetServiceDTO internetServiceDTO;

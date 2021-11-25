@@ -7,6 +7,8 @@ import com.example.demo.datasource.services.PhoneServiceDAO;
 import com.example.demo.datasource.services.TvServiceDAO;
 import com.example.demo.entity.ApplicationUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,11 +22,11 @@ import javax.validation.Valid;
 @Controller
 public class UserController {
 
-    private ApplicationUserDaoService applicationUserDaoService;
-    private InternetServiceDAO internetServiceDAO;
-    private PhoneServiceDAO phoneServiceDAO;
-    private TvServiceDAO tvServiceDAO;
-    private BalanceDao balanceDao;
+    private final ApplicationUserDaoService applicationUserDaoService;
+    private final InternetServiceDAO internetServiceDAO;
+    private final PhoneServiceDAO phoneServiceDAO;
+    private final TvServiceDAO tvServiceDAO;
+    private final BalanceDao balanceDao;
 
     @Autowired
     public UserController(ApplicationUserDaoService applicationUserDaoService,
@@ -40,21 +42,23 @@ public class UserController {
     }
 
     // Read
-    @GetMapping("main/list")
+    @GetMapping("admin/userlist")
     public String showListOfPeople(Model model) {
         model.addAttribute("userList", applicationUserDaoService.getApplicationUsersList());
-        return "main/list";
+        return "admin/userlist";
     }
     // Read
-    @GetMapping("main/{id}")
-    public String show(@PathVariable("id")int id, Model model) {
-        ApplicationUserDto applicationUserDto = applicationUserDaoService.showApplicationUser(id);
+    @GetMapping("user/details")
+    public String show(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+
+        ApplicationUserDto applicationUserDto = applicationUserDaoService.findUserByPasswordAndUsername(userDetails.getUsername(), userDetails.getPassword());
+
         model.addAttribute("user", applicationUserDto);
         model.addAttribute("internet", internetServiceDAO.showInternetService(applicationUserDto.getInternetServiceId()));
         model.addAttribute("phone", phoneServiceDAO.showPhoneService(applicationUserDto.getPhoneServiceId()));
         model.addAttribute("tv", tvServiceDAO.showTvService(applicationUserDto.getTvServiceId()));
         model.addAttribute("balance", balanceDao.showBalance(applicationUserDto.getBalanceId()));
-        return "main/show";
+        return "user/showUserDetails";
     }
 
     // Update
@@ -69,19 +73,17 @@ public class UserController {
     public String updateUser(@ModelAttribute("applicationUserDto")  @Valid ApplicationUserDto applicationUserDto,
                              BindingResult bindingResult,
                              @PathVariable("id") int id) {
-        System.out.println("update");
         if(bindingResult.hasErrors())
             return "main/edit";
 
         applicationUserDaoService.updateApplicationUser(id, applicationUserDto);
-        return "redirect:/main/list";
+        return "redirect:/main";
     }
 
     // Delete
     @PostMapping("main/delete/{id}")
     public String deleteUser(@PathVariable("id") int id) {
-
         applicationUserDaoService.deleteApplicationUser(id);
-        return "redirect:/main/list";
+        return "redirect:/main";
     }
 }

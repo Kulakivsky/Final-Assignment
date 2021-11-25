@@ -18,6 +18,7 @@ import javax.validation.Valid;
 @Controller
 public class AdminPhoneController {
 
+    private final String REDIRECT = "redirect:/admin/servicelist";
     private PhoneServiceDAO phoneServiceDAO;
 
     @Autowired
@@ -27,50 +28,52 @@ public class AdminPhoneController {
 
     // Create
     @PostMapping("admin/phone/add")
-    public String addingNewPerson(@ModelAttribute("phoneServiceDTO") @Valid PhoneServiceDTO phoneServiceDTO,
+    public String addingNewPhoneService(@ModelAttribute("phoneServiceDTO") @Valid PhoneServiceDTO phoneServiceDTO,
                                   BindingResult bindingResult){
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
             return "admin/internet/createInternetService";
+        }
 
         phoneServiceDAO.createPhoneService(phoneServiceDTO);
-        return "redirect:/admin/phone/list";
+        return REDIRECT;
     }
+
     // Create
     @GetMapping("admin/phone/add")
-    public String showRegistrationForm(Model model) {
+    public String showNewPhoneServiceForm(Model model) {
         model.addAttribute("phoneServiceDTO", new PhoneServiceDTO());
         return "admin/phone/createPhoneService";
     }
 
-    // Read
-    @GetMapping("admin/phone/list")
-    public String showListOfPeople(Model model) {
-        model.addAttribute("phoneList", phoneServiceDAO.getPhoneServiceList());
-        return "admin/phone/showPhoneList";
-    }
 
     /////// Update
     @PostMapping("admin/phone/update/{id}")
-    public String addingNewInternetService(@PathVariable("id") int id,
+    public String updatePhoneService(@PathVariable("id") int id,
                                            @ModelAttribute("phoneServiceDTO") @Valid PhoneServiceDTO phoneServiceDTO,
                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "admin/phone/editPhoneService";
 
         phoneServiceDAO.updatePhoneService(id, phoneServiceDTO);
-        return "redirect:/admin/phone/list";
+        return REDIRECT;
     }
     /////// Update
     @GetMapping("admin/phone/update/{id}")
-    public String showRegistrationForm(@PathVariable("id") int id, Model model) {
+    public String showPhoneServiceFormForUpdate(@PathVariable("id") int id, Model model) {
         model.addAttribute("phoneServiceDTO", phoneServiceDAO.showPhoneService(id));
         return "admin/phone/editPhoneService";
     }
 
-    //Delete
+    /**
+     *
+     * service with id=0 shouldn't be deleted. It's default for a new user
+     */
     @PostMapping ("admin/phone/delete/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deletePhoneService(@PathVariable("id") int id) {
+        if(id==0){
+            return REDIRECT;
+        }
         phoneServiceDAO.deletePhoneService(id);
-        return "redirect:/admin/phone/list";
+        return REDIRECT;
     }
 }

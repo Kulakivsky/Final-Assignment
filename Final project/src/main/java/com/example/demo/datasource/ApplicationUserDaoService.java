@@ -3,14 +3,16 @@ package com.example.demo.datasource;
 import com.example.demo.entity.ApplicationUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.sql.DataSource;
+import java.util.*;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 
 @Component
@@ -18,13 +20,21 @@ import java.util.Optional;
 public class ApplicationUserDaoService implements ApplicationUserDao {
 
     private BalanceDao balanceDao;
+    private CartDAO cardDAO;
+    private final PasswordEncoder passwordEncoder;
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
     private List<ApplicationUserDto> applicationUsersList = new ArrayList<>();
 
     @Autowired
-    public ApplicationUserDaoService(JdbcTemplate jdbcTemplate, BalanceDao balanceDao) {
+    public ApplicationUserDaoService(JdbcTemplate jdbcTemplate, DataSource dataSource,
+                                     BalanceDao balanceDao, CartDAO cartDAO, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.jdbcTemplate = jdbcTemplate;
         this.balanceDao = balanceDao;
+        this.cardDAO = cartDAO;
+        simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("applicationuser").usingGeneratedKeyColumns("id");
     }
 
     @Override
@@ -41,26 +51,30 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
      * balanceDao.createBalance() auto create id for user and return int of id
      */
     public void createApplicationUser(ApplicationUserDto applicationUser) {
-        jdbcTemplate.update(
-                "INSERT INTO ApplicationUser (username, password, balance_id, internet_service_id, phone_service_id, tv_service_id) " +
-                        "VALUES(?,?,?,?,?,?)",
-                applicationUser.getUsername(),
-                applicationUser.getPassword(),
-                balanceDao.createBalance(),
-                applicationUser.getInternetServiceId(),
-                applicationUser.getPhoneServiceId(),
-                applicationUser.getTvServiceId());
+
+
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("username", applicationUser.getUsername());
+        parameters.put("password", passwordEncoder.encode(applicationUser.getPassword()));
+        parameters.put("balance_id", balanceDao.createBalance());
+        parameters.put("internet_service_id", applicationUser.getInternetServiceId());
+        parameters.put("phone_service_id", applicationUser.getPhoneServiceId());
+        parameters.put("tv_service_id", applicationUser.getTvServiceId());
+
+        cardDAO.createCart((int) simpleJdbcInsert.executeAndReturnKey(parameters));
     }
 
     public void updateApplicationUser(int id, ApplicationUserDto applicationUser) {
         jdbcTemplate.update("UPDATE applicationUser SET username=?, password=? WHERE id=?",
                 applicationUser.getUsername(),
-                applicationUser.getPassword(),
+                passwordEncoder.encode(applicationUser.getPassword()),
                 id);
     }
 
     public void deleteApplicationUser(int id){
         balanceDao.deleteBalance(showApplicationUser(id).getBalanceId());
+        cardDAO.deleteCard(id);
         jdbcTemplate.update("DELETE FROM applicationUser WHERE id=?", id);
     }
 
@@ -93,6 +107,28 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
         }
         return applicationUsersList;
     }
+
+    public ApplicationUserDto findUserByPasswordAndUsername(String username, String password) {
+        ApplicationUserDto applicationUserDto = new ApplicationUserDto();
+        Map<String, Object> applicationUserMap = jdbcTemplate.queryForMap("SELECT * FROM applicationuser WHERE password=?", password);
+        applicationUserDto.setId((Integer) applicationUserMap.get("id"));
+        applicationUserDto.setUsername(username);
+        applicationUserDto.setPassword(password);
+        applicationUserDto.setBalanceId((Integer) applicationUserMap.get("balance_id"));
+        applicationUserDto.setInternetServiceId((Integer) applicationUserMap.get("internet_service_id"));
+        applicationUserDto.setPhoneServiceId((Integer) applicationUserMap.get("internet_service_id"));
+        applicationUserDto.setTvServiceId((Integer) applicationUserMap.get("tv_service_id"));
+
+//        ApplicationUserDto applicationUserDto = new ApplicationUserDto(
+//                id, (String) applicationUserMap.get("username"),
+//                (String) applicationUserMap.get("password"),
+//                (Integer) applicationUserMap.get("balance_id"),
+//                (Integer) applicationUserMap.get("internet_service_id"),
+//                (Integer) applicationUserMap.get("phone_service_id"),
+//                (Integer) applicationUserMap.get("tv_service_id"));
+        return applicationUserDto;
+    }
+
 
     public ApplicationUserDto showApplicationUser(int id) {
         ApplicationUserDto applicationUserDto = new ApplicationUserDto();

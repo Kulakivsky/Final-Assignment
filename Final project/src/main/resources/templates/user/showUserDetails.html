@@ -32,7 +32,7 @@
 <label for="Internet" style="color:black"> Internet service: </label>
 <p th:text="${internet.getNameOfTariff()}" id="Internet">VALUE</p>
 
-<label for="Phone" style="color:black"> Phone service: </label>
+<label for="Phone"> Phone service: </label>
 <p th:text="${phone.getNameOfTariff()}" id="Phone">VALUE</p>
 
 <label for="Tv" style="color:black"> Tv service: </label>
@@ -42,13 +42,15 @@
 <a th:href="@{/main/{id}/edit(id=${user.getId()})}"> Edit Credentials </a>
 <br>
 <br>
-<a th:href="@{/main/balance/{id}/editBalance (id=${user.getBalanceId()})}" th:object="${user}" class="btn btn-info" role="button">Top up my Balance</a>
+<a th:href="@{/templates/user/balance/{id}/editBalance (id=${user.getBalanceId()})}" th:object="${user}" class="btn btn-info" role="button">Top up my Balance</a>
 <br>
 <br>
 
 <form method="post" th:action="@{/main/delete/{id}(id=${user.getId()})}" role="form">
     <button type="submit" name="submit">DELETE</button>
 </form>
+
+<a th:href="@{/user/cart}" class="btn btn-info" role="button">My cart</a>
 
 </body>
 </html>

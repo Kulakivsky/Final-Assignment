@@ -28,7 +28,7 @@ public class BalanceController {
                                   @ModelAttribute("balanceDto") @Valid BalanceDto balanceDto,
                                   BindingResult bindingResult){
         if (bindingResult.hasErrors())
-            return "main/balance/editBalance";
+            return "user/balance/editBalance";
 
         balanceDao.updateBalance(id, balanceDto);
         return "redirect:/main/list";
@@ -37,6 +37,6 @@ public class BalanceController {
     @GetMapping("main/balance/{id}/editBalance")
     public String showBalance(@PathVariable("id") int id, Model model) {
         model.addAttribute("balanceDto", balanceDao.showBalance(id));
-        return "main/balance/editBalance";
+        return "user/balance/editBalance";
     }
 }
