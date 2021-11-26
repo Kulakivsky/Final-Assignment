@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class CartController {
 
+
+    private final String REDIRECT = "redirect:/main/list";
     private final InternetServiceDAO internetServiceDAO;
     private final PhoneServiceDAO phoneServiceDAO;
     private final TvServiceDAO tvServiceDAO;
@@ -79,24 +81,24 @@ public class CartController {
     }
 
     @PostMapping("user/internet/addService/{id}")
-    public String addingInternetService(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails){
+    public String addingInternetService(@PathVariable("id") int serviceId, @AuthenticationPrincipal UserDetails userDetails){
         ApplicationUserDto applicationUserDto = applicationUserDaoService.findUserByPasswordAndUsername(userDetails.getUsername(), userDetails.getPassword());
-        cartDAO.updateInternetInCart(applicationUserDto.getId(), id);
-        return "redirect:/admin/internet/list";
+        cartDAO.updateInternetInCart(applicationUserDto.getId(), serviceId);
+        return REDIRECT;
     }
 
     @PostMapping("user/phone/addService/{id}")
-    public String addingPhoneService(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails){
+    public String addingPhoneService(@PathVariable("id") int serviceId, @AuthenticationPrincipal UserDetails userDetails){
         ApplicationUserDto applicationUserDto = applicationUserDaoService.findUserByPasswordAndUsername(userDetails.getUsername(), userDetails.getPassword());
-        cartDAO.updatePhoneInCart(applicationUserDto.getId(), id);
-        return "redirect:/admin/phone/list";
+        cartDAO.updatePhoneInCart(applicationUserDto.getId(), serviceId);
+        return REDIRECT;
     }
 
     @PostMapping("user/tv/addService/{id}")
-    public String addingTvService(@PathVariable("id") int id, @AuthenticationPrincipal UserDetails userDetails){
+    public String addingTvService(@PathVariable("id") int serviceId, @AuthenticationPrincipal UserDetails userDetails){
         ApplicationUserDto applicationUserDto = applicationUserDaoService.findUserByPasswordAndUsername(userDetails.getUsername(), userDetails.getPassword());
-        cartDAO.updateTvInCart(applicationUserDto.getId(), id);
-        return "redirect:/admin/tv/list";
+        cartDAO.updateTvInCart(applicationUserDto.getId(), serviceId);
+        return REDIRECT;
     }
 
     @PostMapping("user/card/{id}/buy")
@@ -112,7 +114,7 @@ public class CartController {
         } else {
             // Block the user;
         }
-        return "redirect:/admin/tv/list";
+        return "redirect:/main";
     }
 
 

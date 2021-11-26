@@ -67,10 +67,9 @@ public class AdminTvController {
      */
     @PostMapping ("admin/tv/delete/{id}")
     public String deleteTvService(@PathVariable("id") int id) {
-        if(id==0){
-            return REDIRECT;
+        if(id!=0){
+            tvServiceDAO.deleteTvService(id);
         }
-        tvServiceDAO.deleteTvService(id);
         return REDIRECT;
     }
 }

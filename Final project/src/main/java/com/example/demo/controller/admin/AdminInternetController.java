@@ -71,10 +71,9 @@ public class AdminInternetController {
      */
     @PostMapping ("admin/internet/delete/{id}")
     public String deleteInternetService(@PathVariable("id") int id) {
-        if(id == 0 ){
-            return REDIRECT;
+        if(id != 0 ) {
+            internetServiceDAO.deleteInternetService(id);
         }
-        internetServiceDAO.deleteInternetService(id);
         return REDIRECT;
     }
 }

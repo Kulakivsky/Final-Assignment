@@ -70,10 +70,9 @@ public class AdminPhoneController {
      */
     @PostMapping ("admin/phone/delete/{id}")
     public String deletePhoneService(@PathVariable("id") int id) {
-        if(id==0){
-            return REDIRECT;
+        if(id!=0){
+            phoneServiceDAO.deletePhoneService(id);
         }
-        phoneServiceDAO.deletePhoneService(id);
         return REDIRECT;
     }
 }

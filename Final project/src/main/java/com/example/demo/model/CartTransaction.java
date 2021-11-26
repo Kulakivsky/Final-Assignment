@@ -15,8 +15,9 @@ import com.example.demo.entity.services.PhoneServiceDTO;
 import com.example.demo.entity.services.TvServiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class CartTransaction {
 
     private final InternetServiceDAO internetServiceDAO;
