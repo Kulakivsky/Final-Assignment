@@ -36,7 +36,7 @@
             </form>
         </td>
         <td>
-            <form th:action="@{/admin/internet/delete/{id} (id = ${internet.getId()})}" role="form">
+            <form method="post" th:action="@{/admin/internet/delete/{id} (id = ${internet.getId()})}" role="form">
                 <button type="submit" name="submit">Delete</button>
             </form>
         </td>
@@ -69,7 +69,7 @@
             </form>
         </td>
         <td>
-            <form th:action="@{/admin/phone/delete/{id} (id = ${phone.getId()})}" role="form">
+            <form method="post" th:action="@{/admin/phone/delete/{id} (id = ${phone.getId()})}" role="form">
                 <button type="submit" name="submit">Delete</button>
             </form>
         </td>
@@ -100,7 +100,7 @@
             </form>
         </td>
         <td>
-            <form th:action="@{/admin/tv/delete/{id} (id = ${tv.getId()})}" role="form">
+            <form method="post" th:action="@{/admin/tv/delete/{id} (id = ${tv.getId()})}" role="form">
                 <button type="submit" name="submit">Delete</button>
             </form>
         </td>

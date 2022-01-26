@@ -28,7 +28,7 @@ public class RegistrationController {
             return "main/registration";
 
         applicationUserDaoService.createApplicationUser(applicationUserDto);
-        return "redirect:/main/list";
+        return "redirect:/main";
     }
 
     @GetMapping("main/registration")

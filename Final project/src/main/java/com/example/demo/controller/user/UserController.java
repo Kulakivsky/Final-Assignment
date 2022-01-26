@@ -41,12 +41,7 @@ public class UserController {
         this.balanceDao = balanceDao;
     }
 
-    // Read
-    @GetMapping("admin/userlist")
-    public String showListOfPeople(Model model) {
-        model.addAttribute("userList", applicationUserDaoService.getApplicationUsersList());
-        return "admin/userlist";
-    }
+
     // Read
     @GetMapping("user/details")
     public String show(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -62,14 +57,14 @@ public class UserController {
     }
 
     // Update
-    @GetMapping("main/{id}/edit")
+    @GetMapping("user/{id}/edit")
     public String editUser(Model model, @PathVariable("id") int id) {
         ApplicationUserDto applicationUserDto = applicationUserDaoService.showApplicationUser(id);
         model.addAttribute("applicationUserDto", applicationUserDto);
-        return "main/edit";
+        return "user/edit";
     }
     // Update
-    @PostMapping("main/{id}")
+    @PostMapping("user/{id}")
     public String updateUser(@ModelAttribute("applicationUserDto")  @Valid ApplicationUserDto applicationUserDto,
                              BindingResult bindingResult,
                              @PathVariable("id") int id) {
@@ -81,7 +76,7 @@ public class UserController {
     }
 
     // Delete
-    @PostMapping("main/delete/{id}")
+    @PostMapping("user/delete/{id}")
     public String deleteUser(@PathVariable("id") int id) {
         applicationUserDaoService.deleteApplicationUser(id);
         return "redirect:/main";

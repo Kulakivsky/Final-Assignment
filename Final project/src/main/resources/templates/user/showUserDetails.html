@@ -39,14 +39,14 @@
 <p th:text="${tv.getNameOfTariff()}" id="Tv">VALUE</p>
 
 
-<a th:href="@{/main/{id}/edit(id=${user.getId()})}"> Edit Credentials </a>
+<a th:href="@{/user/{id}/edit(id=${user.getId()})}"> Edit Credentials </a>
 <br>
 <br>
-<a th:href="@{/templates/user/balance/{id}/editBalance (id=${user.getBalanceId()})}" th:object="${user}" class="btn btn-info" role="button">Top up my Balance</a>
+<a th:href="@{/user/balance/{id}/editBalance (id=${user.getBalanceId()})}" th:object="${user}" class="btn btn-info" role="button">Top up my Balance</a>
 <br>
 <br>
 
-<form method="post" th:action="@{/main/delete/{id}(id=${user.getId()})}" role="form">
+<form method="post" th:action="@{/user/delete/{id}(id=${user.getId()})}" role="form">
     <button type="submit" name="submit">DELETE</button>
 </form>
 

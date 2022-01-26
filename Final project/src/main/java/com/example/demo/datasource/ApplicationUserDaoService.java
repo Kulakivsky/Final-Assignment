@@ -52,8 +52,6 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
      */
     public void createApplicationUser(ApplicationUserDto applicationUser) {
 
-
-
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("username", applicationUser.getUsername());
         parameters.put("password", passwordEncoder.encode(applicationUser.getPassword()));
@@ -63,6 +61,14 @@ public class ApplicationUserDaoService implements ApplicationUserDao {
         parameters.put("tv_service_id", applicationUser.getTvServiceId());
 
         cardDAO.createCart((int) simpleJdbcInsert.executeAndReturnKey(parameters));
+    }
+
+    public void updateUser(int id, ApplicationUserDto applicationUser) {
+        jdbcTemplate.update("UPDATE applicationUser SET internet_service_id=?, phone_service_id=?, tv_service_id=? WHERE id=?",
+                applicationUser.getInternetServiceId(),
+                applicationUser.getPhoneServiceId(),
+                applicationUser.getTvServiceId(),
+                id);
     }
 
     public void updateApplicationUser(int id, ApplicationUserDto applicationUser) {

@@ -23,7 +23,7 @@ public class BalanceController {
         this.balanceDao = balanceDao;
     }
 
-    @PostMapping("main/balance/{id}/editBalance")
+    @PostMapping("user/balance/{id}/editBalance")
     public String addingNewPerson(@PathVariable("id") int id,
                                   @ModelAttribute("balanceDto") @Valid BalanceDto balanceDto,
                                   BindingResult bindingResult){
@@ -34,7 +34,7 @@ public class BalanceController {
         return "redirect:/main/list";
     }
 
-    @GetMapping("main/balance/{id}/editBalance")
+    @GetMapping("user/balance/{id}/editBalance")
     public String showBalance(@PathVariable("id") int id, Model model) {
         model.addAttribute("balanceDto", balanceDao.showBalance(id));
         return "user/balance/editBalance";

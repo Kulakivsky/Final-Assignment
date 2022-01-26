@@ -72,14 +72,6 @@ public class CartController {
         return "user/cart";
     }
 
-//TODO: Change role
-    @PreAuthorize("hasAnyRole('ROLE_STUDENT')")
-    @PostMapping("main/test")
-    public String test(@AuthenticationPrincipal UserDetails userDetails){
-        System.out.println(userDetails.getUsername());
-        return "mainPage";
-    }
-
     @PostMapping("user/internet/addService/{id}")
     public String addingInternetService(@PathVariable("id") int serviceId, @AuthenticationPrincipal UserDetails userDetails){
         ApplicationUserDto applicationUserDto = applicationUserDaoService.findUserByPasswordAndUsername(userDetails.getUsername(), userDetails.getPassword());
@@ -110,7 +102,11 @@ public class CartController {
             applicationUserDto.setInternetServiceId(cartDTO.getInternet_service_id());
             applicationUserDto.setPhoneServiceId(cartDTO.getPhone_service_id());
             applicationUserDto.setTvServiceId(cartDTO.getTv_service_id());
-            applicationUserDaoService.updateApplicationUser(applicationUserDto.getId(), applicationUserDto);
+            applicationUserDaoService.updateUser(applicationUserDto.getId(), applicationUserDto);
+
+            cartDAO.updateInternetInCart(applicationUserDto.getId(), 0);
+            cartDAO.updateTvInCart(applicationUserDto.getId(), 0);
+            cartDAO.updatePhoneInCart(applicationUserDto.getId(), 0);
         } else {
             // Block the user;
         }

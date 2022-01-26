@@ -29,7 +29,7 @@
             <td><span th:text="${internetServiceDTO.getNameOfTariff()}"> Name </span></td>
             <td><span th:text="${internetServiceDTO.getPriceOfTariff()}"> Price </span></td>
             <td>
-                <form th:method="post" th:action="@{user/internet/addService/0}" role="form">
+                <form th:method="post" th:action="@{/user/internet/addService/0}" role="form">
                     <button type="submit" name="submit">Remove service</button>
                 </form>
             </td>
@@ -38,7 +38,7 @@
             <td><span th:text="${phoneServiceDTO.getNameOfTariff()}"> Name </span></td>
             <td><span th:text="${phoneServiceDTO.getPriceOfTariff()}"> Price </span></td>
             <td>
-                <form th:method="post" th:action="@{user/phone/addService/0}" role="form">
+                <form th:method="post" th:action="@{/user/phone/addService/0}" role="form">
                     <button type="submit" name="submit">Remove service</button>
                 </form>
             </td>
@@ -47,7 +47,7 @@
             <td><span th:text="${tvServiceDTO.getNameOfTariff()}"> Name </span></td>
             <td><span th:text="${tvServiceDTO.getPriceOfTariff()}"> Price </span></td>
             <td>
-                <form th:method="post" th:action="@{user/tv/addService/0}" role="form">
+                <form th:method="post" th:action="@{/user/tv/addService/0}" role="form">
                     <button type="submit" name="submit">Remove service</button>
                 </form>
             </td>

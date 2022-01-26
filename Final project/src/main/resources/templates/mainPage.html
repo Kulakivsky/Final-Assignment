@@ -12,19 +12,28 @@
 <h1>Main Page</h1>
 
 <b>Guest</b>
+<br>
 <a th:href="@{/main/registration}" class="btn btn-info" role="button">Registration</a>
 <br>
 <a th:href="@{/login}" class="btn btn-info" role="button">Login</a>
 <br>
-
+<a th:href="@{/main/list}" class="btn btn-info" role="button">List of Services</a>
+<br>
+<br>
 <b>User</b>
-
+<br>
+<a th:href="@{/user/cart}" class="btn btn-info" role="button">My cart</a>
+<br>
+<a th:href="@{/user/details}" class="btn btn-info" role="button">My details</a>
 
 
 <br>
+<b>Admin</b>
 <br>
+<a th:href="@{/admin/userlist}" class="btn btn-info" role="button">Show list of users</a>
 <br>
-<a th:href="@{/admin/list}" class="btn btn-info" role="button">Show list of users</a>
+<a th:href="@{/admin/servicelist}" class="btn btn-info" role="button">Show list of Services</a>
+
 
 
 </body>
